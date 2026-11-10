@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: upi-shield-ml
+    env: python
+    plan: free
+    region: oregon
+    buildCommand: "pip install -r backend/requirements.txt"
+    startCommand: "gunicorn --bind 0.0.0.0:$PORT app:app"
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.11"
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_PUBLISHABLE_KEY
+        sync: false
+      - key: UPI_SHIELD_SECRET
+        sync: false
+      - key: UPI_SHIELD_HTTPS
+        value: "1"
+      - key: FRONTEND_ORIGINS
+        sync: false
+    disk:
+      name: upi-shield-models
+      mountPath: /opt/render/project/src/backend/models
+      sizeGB: 1
